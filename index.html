@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard de Rotas</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f0f0f0;
+    }
+    .dashboard {
+      backdrop-filter: blur(20px);
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      padding: 20px;
+      margin: 20px;
+    }
+    h1 {
+      color: #00f; /* azul neon */
+      text-align: center;
+    }
+    input, button {
+      padding: 10px;
+      margin: 5px;
+      border-radius: 10px;
+      border: none;
+    }
+    button {
+      background: #ff6600; /* laranja neon */
+      color: white;
+      cursor: pointer;
+    }
+    #map {
+      height: 500px;
+      width: 100%;
+      border-radius: 20px;
+      margin-top: 20px;
+    }
+    .lista-enderecos {
+      margin-top: 10px;
+    }
+    .feito {
+      color: #00f; /* azul neon */
+    }
+    .pendente {
+      color: #ff6600; /* laranja neon */
+    }
+  </style>
+</head>
+<body>
+  <div class="dashboard">
+    <h1>Dashboard de Rotas</h1>
+    <h1>LOGISTICA DE ROTAS DEC METAL</h1>
+    <input id="endereco" type="text" placeholder="Digite um endereço e pressione Enter">
+    <button onclick="calcularRota()">Calcular Rota</button>
+    <div class="lista-enderecos" id="lista"></div>
+    <div id="map"></div>
+  </div>
+
+  <script>
+    let map;
+    let directionsService;
+    let directionsRenderer;
+    let enderecos = [];
+
+    function initMap() {
+      map = new google.maps.Map(document.getElementById("map"), {
+        center: { lat: -23.5, lng: -46.3 }, // São Paulo
+        zoom: 10,
+      });
+      directionsService = new google.maps.DirectionsService();
+      directionsRenderer = new google.maps.DirectionsRenderer();
+      directionsRenderer.setMap(map);
+
+      document.getElementById("endereco").addEventListener("keydown", function(e) {
+        if (e.key === "Enter") {
+          enderecos.push(this.value);
